@@ -40,8 +40,18 @@ class Perceptron:
 
         """
         self.w_ = np.zeros(1 + X.shape[1])
+        self.errors_ = []
 
-        # TODO: Put your code
+        for _ in range(self.n_iter):
+            errors = 0
+            for xi, target in zip(X, y):  # A cada iteració aconseguim una mostra i la seva classe
+                update = self.eta * (target - self.predict(xi))  # Si la prediccio es correcta update = 0
+                self.w_[1:] += update * xi  # actualitzacio dels pesos
+                self.w_[0] += update  # actualitzacio del bias
+                # Extra: calculam els errors de classificacio a cada iteració
+                errors += int(update != 0.0)
+            self.errors_.append(errors)
+
         return self
 
     def predict(self, X):
@@ -51,4 +61,4 @@ class Perceptron:
             Return a list with classes
         """
 
-        # TODO: Put your code
+        return np.where(self.__net_input(X) >= 0.0, 1, -1)

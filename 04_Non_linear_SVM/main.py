@@ -94,6 +94,21 @@ errors = np.count_nonzero(differences)
 print(f'Rati d\'acerts en el bloc de predicció amb kernel polinomic nostre: {(len(y_predicted)-errors)/len(y_predicted)}')
 print("\n")
 
+
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
 poly = PolynomialFeatures(3)
-X_transformed2 = poly.fit_transform(X)
+X_transformed2 = poly.fit_transform(X_train)
+#y_transformed2 = poly.fit_transform(y_train)
+
+#Entrenam una SVM linear (classe SVC)
+svm = SVC(C=1.0, kernel='linear')
+svm.fit(X_transformed2, y_train)
+y_predicted = svm.predict(X_transformed2)
+
+differences = (y_predicted - y_train)
+errors = np.count_nonzero(differences)
+
+print(f'Rati d\'acerts en el bloc de predicció: {(len(y_predicted)-errors)/len(y_predicted)}')
+
 
